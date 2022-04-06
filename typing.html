@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding-top: 40px;
+            text-align: center;
+        }
+        #target{
+            font-size: 48px;
+            letter-spacing:.1em ;
+        }
+    </style>
+</head>
+<body>
+   <p id = "target">click to start</p>
+   <p id = "result"></p>
+    
+<script>
+    let loc = 0;
+    let word;
+    let startTime;
+    let isPlaying = false;
+    const target = document.getElementById(`target`);
+    const box = [`niijimamakoto`, `okumuraharu`,`takamakiann`,`sakurahutaba`];
+    
+    
+    function setWord(){
+        word = box.splice(Math.floor(Math.random()*box.length), 1)[0];
+        target.textContent = word;
+        loc = 0;
+    }
+    
+    document.addEventListener(`click`, ()=>{
+        if(isPlaying == true){
+            return;
+        }else{
+            setWord();
+            startTime = Date.now();
+            isPlaying = true;
+            
+
+        }
+    })
+    // while(count < 2){
+        document.addEventListener(`keydown`, e =>{
+            
+            if(e.key !== word[loc]){
+                return;
+            }
+           
+            loc++;
+            target.textContent = `_`.repeat(loc) + word.substring(loc);
+            console.log(loc);
+            if(loc == word.length){
+                if(box.length == 0){
+                    const elapsedTime = ((Date.now()- startTime) / 1000).toFixed(2);
+                    const result = document.getElementById(`result`);
+                    result.textContent = `finished ${elapsedTime} seconds`;
+                    isPlaying = false;
+                    return;
+                }
+                setWord()
+            }
+
+        });
+    // }
+    
+</script>
+</body>
+</html>
